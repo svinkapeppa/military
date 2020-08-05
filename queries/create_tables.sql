@@ -1,5 +1,4 @@
 -- Drop old data
-DROP TABLE IF EXISTS task;
 DROP TABLE IF EXISTS ammunition;
 DROP TABLE IF EXISTS enemy;
 DROP TABLE IF EXISTS fighter;
@@ -7,9 +6,8 @@ DROP TABLE IF EXISTS airfield;
 DROP TABLE IF EXISTS enemy_pc;
 DROP TABLE IF EXISTS fighter_pc;
 DROP TABLE IF EXISTS fighter_description;
+DROP TABLE IF EXISTS task;
 DROP TABLE IF EXISTS fighter_status;
-DROP TABLE IF EXISTS task_status;
-DROP TABLE IF EXISTS task_condition;
 DROP TABLE IF EXISTS missile;
 DROP TABLE IF EXISTS airfield_length_class;
 DROP TABLE IF EXISTS airfield_weight_class;
@@ -28,18 +26,6 @@ CREATE TABLE airfield_length_class(
 CREATE TABLE missile(
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE
-);
-
-CREATE TABLE task_condition(
-    id SERIAL PRIMARY KEY,
-    height REAL NOT NULL CHECK(height >= 0),
-    speed REAL NOT NULL CHECK(speed >= 0),
-    range REAL NOT NULL CHECK(range >= 0)
-);
-
-CREATE TABLE task_status(
-    id SERIAL PRIMARY KEY,
-    status TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE fighter_status(
@@ -84,12 +70,23 @@ CREATE TABLE airfield(
     runway_azimuth REAL NOT NULL CHECK(azimuth >= 0 AND azimuth <= 360)
 );
 
+CREATE TABLE task(
+    id SERIAL PRIMARY KEY,
+    speed REAL NOT NULL CHECK(speed >= 0),
+    height REAL NOT NULL CHECK(height >= 0),
+    range REAL NOT NULL CHECK(range >= 0),
+    start_dt TIMESTAMP(4) WITHOUT TIME ZONE,
+    finish_dt TIMESTAMP(4) WITHOUT TIME ZONE,
+    CHECK(finish_dt >= start_dt)
+);
+
 CREATE TABLE fighter(
     id SERIAL PRIMARY KEY,
     fighter_id INTEGER NOT NULL,
     pc_id INTEGER REFERENCES fighter_pc(id) ON DELETE NO ACTION ON UPDATE CASCADE,
     airfield_id INTEGER REFERENCES airfield(id) ON DELETE NO ACTION ON UPDATE CASCADE,
     status_id INTEGER REFERENCES fighter_status(id) ON DELETE NO ACTION ON UPDATE CASCADE,
+    task_id INTEGER REFERENCES task(id) ON DELETE SET NULL ON UPDATE CASCADE,
     range REAL NOT NULL CHECK(range >= 0),
     azimuth REAL NOT NULL CHECK(azimuth >= 0 AND azimuth <= 360),
     elevation REAL NOT NULL CHECK(elevation >= 0 AND elevation <= 90),
@@ -106,6 +103,7 @@ CREATE TABLE enemy(
     id SERIAL PRIMARY KEY,
     enemy_id INTEGER NOT NULL,
     pc_id INTEGER REFERENCES enemy_pc(id) ON DELETE NO ACTION ON UPDATE CASCADE,
+    task_id INTEGER REFERENCES task(id) ON DELETE CASCADE ON UPDATE CASCADE,
     speed REAL NOT NULL CHECK(speed >= 0),
     range REAL NOT NULL CHECK(range >= 0),
     azimuth REAL NOT NULL CHECK(azimuth >= 0 AND azimuth <= 360),
@@ -125,14 +123,6 @@ CREATE TABLE ammunition(
     CHECK(finish_dt >= start_dt)
 );
 
-CREATE TABLE task(
-    id SERIAL PRIMARY KEY,
-    task_id INTEGER NOT NULL,
-    status_id INTEGER REFERENCES task_status(id) ON DELETE NO ACTION ON UPDATE CASCADE,
-    enemy_id INTEGER REFERENCES enemy(id) ON DELETE NO ACTION ON UPDATE CASCADE,
-    fighter_id INTEGER REFERENCES fighter(id) ON DELETE NO ACTION ON UPDATE CASCADE,
-    task_condition_id INTEGER REFERENCES task_condition(id) ON DELETE NO ACTION ON UPDATE CASCADE,
-    start_dt TIMESTAMP(4) WITHOUT TIME ZONE,
-    finish_dt TIMESTAMP(4) WITHOUT TIME ZONE,
-    CHECK(finish_dt >= start_dt)
-);
+-- Тригер на апдейт в task
+-- Тригер на инсерт в enemy
+-- Тригер на инсерт в fighter + ammunition

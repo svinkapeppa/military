@@ -22,10 +22,6 @@ INSERT INTO missile(name) VALUES('Р-37');
 INSERT INTO missile(name) VALUES('Р-77');
 INSERT INTO missile(name) VALUES('КС-172');
 
--- task_status
-INSERT INTO task_status(status) VALUES('Наводить');
-INSERT INTO task_status(status) VALUES('Атака состоялась');
-
 -- fighter_status
 INSERT INTO fighter_status(status) VALUES('Свободен');
 INSERT INTO fighter_status(status) VALUES('На боевом задании');
@@ -64,6 +60,9 @@ INSERT INTO enemy_pc(name, type, max_speed, max_height, min_height) VALUES(
 INSERT INTO enemy_pc(name, type, max_speed, max_height, min_height) VALUES(
     'B-2', 'Бомбардировщик', 1010, 15.24, 0
 );
+INSERT INTO enemy_pc(name, type, max_speed, max_height, min_height) VALUES(
+    'Неизвестно', 'Неизвестно', 0, 0, 0
+);
 
 -- airfield
 INSERT INTO airfield(name, azimuth, elevation, range, weight_class, length_class, runway_azimuth) VALUES(
@@ -81,149 +80,148 @@ INSERT INTO airfield(name, azimuth, elevation, range, weight_class, length_class
 
 -- fighter
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    1, 1, 1, 1, 997.067, 8.525, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    1, 1, 1, 1, NULL, 997.067, 8.525, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    2, 1, 1, 3, 997.067, 8.525, 0, 0, 0, 0, 0, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    2, 1, 1, 3, NULL, 997.067, 8.525, 0, 0, 0, 0, 0, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    3, 1, 1, 4, 997.067, 8.525, 0, 0, 0, 0, 0, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    3, 1, 1, 4, NULL, 997.067, 8.525, 0, 0, 0, 0, 0, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    4, 2, 1, 1, 997.067, 8.525, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    4, 2, 1, 1, NULL, 997.067, 8.525, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    5, 2, 1, 3, 997.067, 8.525, 0, 0, 0, 0, 0, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    5, 2, 1, 3, NULL, 997.067, 8.525, 0, 0, 0, 0, 0, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    6, 2, 1, 4, 997.067, 8.525, 0, 0, 0, 0, 0, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    6, 2, 1, 4, NULL, 997.067, 8.525, 0, 0, 0, 0, 0, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    7, 1, 2, 1, 3499.626, 64.589, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    7, 1, 2, 1, NULL, 3499.626, 64.589, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    8, 1, 2, 3, 3499.626, 64.589, 0, 0, 0, 0, 0, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    8, 1, 2, 3, NULL, 3499.626, 64.589, 0, 0, 0, 0, 0, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    9, 1, 2, 4, 3499.626, 64.589, 0, 0, 0, 0, 0, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    9, 1, 2, 4, NULL, 3499.626, 64.589, 0, 0, 0, 0, 0, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    10, 2, 2, 1, 3499.626, 64.589, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    10, 2, 2, 1, NULL, 3499.626, 64.589, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    11, 2, 2, 3, 3499.626, 64.589, 0, 0, 0, 0, 0, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    11, 2, 2, 3, NULL, 3499.626, 64.589, 0, 0, 0, 0, 0, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    12, 2, 2, 4, 3499.626, 64.589, 0, 0, 0, 0, 0, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    12, 2, 2, 4, NULL, 3499.626, 64.589, 0, 0, 0, 0, 0, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    13, 1, 3, 1, 361.242, 159.225, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    13, 1, 3, 1, NULL, 361.242, 159.225, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    14, 1, 3, 1, 361.242, 159.225, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    14, 1, 3, 1, NULL, 361.242, 159.225, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    15, 1, 3, 1, 361.242, 159.225, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    15, 1, 3, 1, NULL, 361.242, 159.225, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    16, 2, 3, 1, 361.242, 159.225, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    16, 2, 3, 1, NULL, 361.242, 159.225, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    17, 2, 3, 1, 361.242, 159.225, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    17, 2, 3, 1, NULL, 361.242, 159.225, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    18, 2, 3, 1, 361.242, 159.225, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
-);
-
-INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
-    velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
-) VALUES(
-    19, 1, 3, 1, 296.226, 94.741, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    18, 2, 3, 1, NULL, 361.242, 159.225, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    20, 1, 3, 1, 296.226, 94.741, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    19, 1, 3, 1, NULL, 296.226, 94.741, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    21, 1, 3, 1, 296.226, 94.741, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    20, 1, 3, 1, NULL, 296.226, 94.741, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    22, 2, 3, 1, 296.226, 94.741, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    21, 1, 3, 1, NULL, 296.226, 94.741, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    23, 2, 3, 1, 296.226, 94.741, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    22, 2, 3, 1, NULL, 296.226, 94.741, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 INSERT INTO fighter(
-    fighter_id, pc_id, airfield_id, status_id, range, azimuth, elevation, speed,
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
     velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
 ) VALUES(
-    24, 2, 3, 1, 296.226, 94.741, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+    23, 2, 3, 1, NULL, 296.226, 94.741, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO fighter(
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
+    velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
+) VALUES(
+    24, 2, 3, 1, NULL, 296.226, 94.741, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 12:00', TIMESTAMP '5999/01/01 00:00'
 );
 
 -- ammunition
@@ -301,8 +299,196 @@ INSERT INTO ammunition(fighter_id, missile_id, amount, start_dt, finish_dt) VALU
 );
 
 -- Action immitation
--- task_condition
--- enemy
--- fighter
--- ammunition
--- task
+-- Task #1
+-- Task statement
+INSERT INTO task(speed, height, range, start_dt, finish_dt) VALUES(
+    10, 2000, 600, TIMESTAMP '2020/08/02 13:00', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 891.712, 308.542, 15, TIMESTAMP '2020/08/02 13:00', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO fighter(
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
+    velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
+) VALUES(
+    13, 1, 3, 2, 1, 361.242, 159.225, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 13:00', TIMESTAMP '5999/01/01 00:00'
+);
+
+-- Units movements
+-- ***
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 876.576, 309.147, 15, TIMESTAMP '2020/08/02 13:01', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 861.950, 309.777, 15, TIMESTAMP '2020/08/02 13:02', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 847.303, 310.434, 15, TIMESTAMP '2020/08/02 13:03', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 832.823, 311.118, 15, TIMESTAMP '2020/08/02 13:04', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 818.519, 311.830, 15, TIMESTAMP '2020/08/02 13:05', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 804.399, 312.572, 15, TIMESTAMP '2020/08/02 13:06', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 790.474, 313.346, 15, TIMESTAMP '2020/08/02 13:07', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 776.754, 314.151, 15, TIMESTAMP '2020/08/02 13:08', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 763.251, 314.989, 15, TIMESTAMP '2020/08/02 13:09', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 749.975, 315.862, 15, TIMESTAMP '2020/08/02 13:10', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 736.939, 316.771, 15, TIMESTAMP '2020/08/02 13:11', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 724.156, 317.717, 15, TIMESTAMP '2020/08/02 13:12', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 711.640, 318.700, 15, TIMESTAMP '2020/08/02 13:13', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 699.404, 319.723, 15, TIMESTAMP '2020/08/02 13:14', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 687.462, 320.787, 15, TIMESTAMP '2020/08/02 13:15', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 675.832, 321.892, 15, TIMESTAMP '2020/08/02 13:16', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 664.529, 323.039, 15, TIMESTAMP '2020/08/02 13:17', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 653.569, 324.229, 15, TIMESTAMP '2020/08/02 13:18', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 642.970, 325.464, 15, TIMESTAMP '2020/08/02 13:19', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 632.749, 326.743, 15, TIMESTAMP '2020/08/02 13:20', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 622.926, 328.068, 15, TIMESTAMP '2020/08/02 13:21', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 613.519, 329.438, 15, TIMESTAMP '2020/08/02 13:22', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 604.547, 330.853, 15, TIMESTAMP '2020/08/02 13:23', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    1, 2, 1, 900, 596.030, 332.313, 15, TIMESTAMP '2020/08/02 13:24', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO ammunition(fighter_id, missile_id, amount, start_dt, finish_dt) VALUES(
+    13, 3, 0, TIMESTAMP '2020/08/02 13:24', TIMESTAMP '5999/01/01 00:00'
+);
+
+-- Task completion
+UPDATE task SET finish_dt = TIMESTAMP '2020/08/02 13:25' WHERE id = 1;
+
+-- Task #2
+-- Task statement
+INSERT INTO task(speed, height, range, start_dt, finish_dt) VALUES(
+    11, 1500, 700, TIMESTAMP '2020/08/02 13:00', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 891.712, 308.542, 15, TIMESTAMP '2020/08/02 13:00', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO fighter(
+    fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
+    velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
+) VALUES(
+    16, 2, 3, 2, 2, 361.242, 159.225, 0, 0, 0, 0, 1, TIMESTAMP '2020/08/02 13:00', TIMESTAMP '5999/01/01 00:00'
+);
+
+-- Units movements
+-- ***
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 876.576, 309.147, 15, TIMESTAMP '2020/08/02 13:01', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 861.950, 309.777, 15, TIMESTAMP '2020/08/02 13:02', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 847.303, 310.434, 15, TIMESTAMP '2020/08/02 13:03', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 832.823, 311.118, 15, TIMESTAMP '2020/08/02 13:04', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 818.519, 311.830, 15, TIMESTAMP '2020/08/02 13:05', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 804.399, 312.572, 15, TIMESTAMP '2020/08/02 13:06', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 790.474, 313.346, 15, TIMESTAMP '2020/08/02 13:07', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 776.754, 314.151, 15, TIMESTAMP '2020/08/02 13:08', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 763.251, 314.989, 15, TIMESTAMP '2020/08/02 13:09', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 749.975, 315.862, 15, TIMESTAMP '2020/08/02 13:10', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 736.939, 316.771, 15, TIMESTAMP '2020/08/02 13:11', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 724.156, 317.717, 15, TIMESTAMP '2020/08/02 13:12', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 711.640, 318.700, 15, TIMESTAMP '2020/08/02 13:13', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 699.404, 319.723, 15, TIMESTAMP '2020/08/02 13:14', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 687.462, 320.787, 15, TIMESTAMP '2020/08/02 13:15', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 675.832, 321.892, 15, TIMESTAMP '2020/08/02 13:16', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 664.529, 323.039, 15, TIMESTAMP '2020/08/02 13:17', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 653.569, 324.229, 15, TIMESTAMP '2020/08/02 13:18', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 642.970, 325.464, 15, TIMESTAMP '2020/08/02 13:19', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 632.749, 326.743, 15, TIMESTAMP '2020/08/02 13:20', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 622.926, 328.068, 15, TIMESTAMP '2020/08/02 13:21', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 613.519, 329.438, 15, TIMESTAMP '2020/08/02 13:22', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 604.547, 330.853, 15, TIMESTAMP '2020/08/02 13:23', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
+    2, 6, 2, 1000, 596.030, 332.313, 15, TIMESTAMP '2020/08/02 13:24', TIMESTAMP '5999/01/01 00:00'
+);
+INSERT INTO ammunition(fighter_id, missile_id, amount, start_dt, finish_dt) VALUES(
+    16, 2, 0, TIMESTAMP '2020/08/02 13:24', TIMESTAMP '5999/01/01 00:00'
+);
+
+-- Task completion
+UPDATE task SET finish_dt = TIMESTAMP '2020/08/02 13:25' WHERE id = 2;
+
+-- Задачи 3 и 4 такие же как и 1 и 2, но только незавершенные, чтобы можно было посмотреть на то, как работает функция\тригер

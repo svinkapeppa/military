@@ -18,7 +18,7 @@
 Запускаем инстанс и указываем, что будем работать с кодировкой `UTF-8`
 ```
 rm -rf /usr/local/var/postgresql@9.6
-initdb /usr/local/var/postgresql@9.6 -A md5 -E UTF8 -U postgres -W password
+initdb -D /usr/local/var/postgresql@9.6 -A md5 -E UTF8 -U postgres -W
 ```
 
 ### Старт сервера
