@@ -1,4 +1,6 @@
 -- Drop old data
+DROP TRIGGER IF EXISTS task_trigger ON task;
+
 DROP TABLE IF EXISTS ammunition;
 DROP TABLE IF EXISTS enemy;
 DROP TABLE IF EXISTS fighter;
@@ -123,6 +125,195 @@ CREATE TABLE ammunition(
     CHECK(finish_dt >= start_dt)
 );
 
--- Тригер на апдейт в task
--- Тригер на инсерт в enemy
--- Тригер на инсерт в fighter + ammunition
+-- Functions
+CREATE OR REPLACE FUNCTION finish_task() RETURNS TRIGGER AS $$
+DECLARE
+    fighter_id INTEGER;
+    pc_id INTEGER;
+    airfield_id INTEGER;
+    status_id INTEGER;
+    task_id INTEGER;
+    range REAL;
+    azimuth REAL;
+    elevation REAL;
+    speed REAL;
+    velocity_azimuth REAL;
+    velocity_elevation REAL;
+    fuel_reserve REAL;
+BEGIN
+    UPDATE
+        enemy
+    SET
+        finish_dt = NEW.finish_dt
+    WHERE
+        enemy.task_id = NEW.id
+        AND enemy.finish_dt = TIMESTAMP '5999/01/01 00:00';
+
+    SELECT
+        fighter.fighter_id, fighter.pc_id, fighter.airfield_id, fighter.status_id,
+        fighter.task_id, fighter.range, fighter.azimuth, fighter.elevation, fighter.speed,
+        fighter.velocity_azimuth, fighter.velocity_elevation, fighter.fuel_reserve
+    INTO
+        fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth,
+        elevation, speed, velocity_azimuth, velocity_elevation, fuel_reserve
+    FROM
+        fighter
+    WHERE
+        fighter.task_id = NEW.id
+        AND fighter.finish_dt = TIMESTAMP '5999/01/01 00:00';
+
+    INSERT INTO fighter(
+        fighter_id, pc_id, airfield_id, status_id, task_id, range, azimuth, elevation, speed,
+        velocity_azimuth, velocity_elevation, fuel_reserve, start_dt, finish_dt
+    ) VALUES(
+        fighter_id, pc_id, airfield_id, status_id, NULL, range, azimuth, elevation, speed,
+        velocity_azimuth, velocity_elevation, fuel_reserve, NEW.finish_dt, TIMESTAMP '5999/01/01 00:00'
+    );
+
+    RETURN NEW;
+END;
+$$ LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION update_enemy() RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE
+        enemy
+    SET
+        finish_dt = NEW.start_dt
+    WHERE
+        enemy.enemy_id = NEW.enemy_id
+        AND enemy.finish_dt = TIMESTAMP '5999/01/01 00:00';
+
+    RETURN NEW;
+END;
+$$ LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION update_fighter() RETURNS TRIGGER AS $$
+DECLARE
+    current_fighter_id INTEGER;
+    row_missile_id INTEGER;
+    row_amount INTEGER;
+    row_start_dt TIMESTAMP;
+BEGIN
+    SELECT
+        fighter.id
+    INTO
+        current_fighter_id
+    FROM
+        fighter
+    WHERE
+        fighter.fighter_id = NEW.fighter_id
+        AND fighter.finish_dt = TIMESTAMP '5999/01/01 00:00';
+
+    UPDATE
+        fighter
+    SET
+        finish_dt = NEW.start_dt
+    WHERE
+        fighter.fighter_id = NEW.fighter_id
+        AND fighter.finish_dt = TIMESTAMP '5999/01/01 00:00';
+
+    FOR row_missile_id, row_amount, row_start_dt IN SELECT
+        ammunition.missile_id, ammunition.amount, ammunition.start_dt
+    FROM
+        ammunition
+    WHERE
+        ammunition.fighter_id = current_fighter_id
+        AND ammunition.finish_dt = TIMESTAMP '5999/01/01 00:00'
+    LOOP
+        UPDATE
+            ammunition
+        SET
+            finish_dt = NEW.start_dt
+        WHERE
+            ammunition.fighter_id = current_fighter_id
+            AND ammunition.missile_id = row_missile_id
+            AND ammunition.finish_dt = TIMESTAMP '5999/01/01 00:00';
+
+        INSERT INTO ammunition(fighter_id, missile_id, amount, start_dt, finish_dt) VALUES(
+            NEW.fighter_id, row_missile_id, row_amount, row_start_dt, TIMESTAMP '5999/01/01 00:00'
+        );
+    END LOOP;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION update_ammunition() RETURNS TRIGGER AS $$
+DECLARE
+    old_finish_dt TIMESTAMP;
+    old_fighter_id INTEGER;
+    current_fighter_id INTEGER;
+BEGIN
+    SELECT
+        fighter.start_dt
+    INTO
+        old_finish_dt
+    FROM
+        fighter
+    WHERE
+        fighter.fighter_id = NEW.fighter_id
+        AND fighter.finish_dt = TIMESTAMP '5999/01/01 00:00';
+
+    SELECT
+        fighter.id
+    INTO
+        old_fighter_id
+    FROM
+        fighter
+    WHERE
+        fighter.finish_dt = old_finish_dt
+        AND fighter.fighter_id = NEW.fighter_id;
+
+    SELECT
+        fighter.id
+    INTO
+        current_fighter_id
+    FROM
+        fighter
+    WHERE
+        fighter.fighter_id = NEW.fighter_id
+        AND fighter.finish_dt = TIMESTAMP '5999/01/01 00:00';
+
+    UPDATE
+        ammunition
+    SET
+        finish_dt = NEW.start_dt
+    WHERE
+        ammunition.fighter_id = old_fighter_id
+        AND ammunition.missile_id = NEW.missile_id
+        AND ammunition.finish_dt = TIMESTAMP '5999/01/01 00:00';
+
+    INSERT INTO ammunition(fighter_id, missile_id, amount, start_dt, finish_dt) VALUES(
+        current_fighter_id, NEW.missile_id, NEW.amount, NEW.start_dt, TIMESTAMP '5999/01/01 00:00'
+    );
+
+    RETURN NULL;
+END;
+$$ LANGUAGE PLPGSQL;
+
+-- Triggers
+CREATE TRIGGER task_trigger
+BEFORE UPDATE
+ON task
+FOR EACH ROW
+EXECUTE PROCEDURE finish_task();
+
+CREATE TRIGGER enemy_update
+BEFORE INSERT
+ON enemy
+FOR EACH ROW
+EXECUTE PROCEDURE update_enemy();
+
+CREATE TRIGGER fighter_update
+BEFORE INSERT
+ON fighter
+FOR EACH ROW
+EXECUTE PROCEDURE update_fighter();
+
+CREATE TRIGGER ammunition_update
+BEFORE INSERT
+ON ammunition
+FOR EACH ROW
+WHEN (NEW.finish_dt IS NULL)
+EXECUTE PROCEDURE update_ammunition();

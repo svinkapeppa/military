@@ -531,8 +531,8 @@ INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, st
 INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
     1, 2, 1, 900, 596.030, 332.313, 15, TIMESTAMP '2020/08/02 13:24', TIMESTAMP '5999/01/01 00:00'
 );
-INSERT INTO ammunition(fighter_id, missile_id, amount, start_dt, finish_dt) VALUES(
-    13, 3, 0, TIMESTAMP '2020/08/02 13:24', TIMESTAMP '5999/01/01 00:00'
+INSERT INTO ammunition(fighter_id, missile_id, amount, start_dt) VALUES(
+    13, 3, 0, TIMESTAMP '2020/08/02 13:24'
 );
 
 -- Task completion
@@ -770,8 +770,8 @@ INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, st
 INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
     2, 6, 2, 1000, 596.030, 332.313, 15, TIMESTAMP '2020/08/02 13:24', TIMESTAMP '5999/01/01 00:00'
 );
-INSERT INTO ammunition(fighter_id, missile_id, amount, start_dt, finish_dt) VALUES(
-    16, 2, 0, TIMESTAMP '2020/08/02 13:24', TIMESTAMP '5999/01/01 00:00'
+INSERT INTO ammunition(fighter_id, missile_id, amount, start_dt) VALUES(
+    16, 2, 0, TIMESTAMP '2020/08/02 13:24'
 );
 
 -- Task completion
@@ -1009,8 +1009,8 @@ INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, st
 INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
     3, 2, 3, 900, 596.030, 332.313, 15, TIMESTAMP '2020/08/02 13:24', TIMESTAMP '5999/01/01 00:00'
 );
-INSERT INTO ammunition(fighter_id, missile_id, amount, start_dt, finish_dt) VALUES(
-    13, 3, 0, TIMESTAMP '2020/08/02 13:24', TIMESTAMP '5999/01/01 00:00'
+INSERT INTO ammunition(fighter_id, missile_id, amount, start_dt) VALUES(
+    13, 3, 0, TIMESTAMP '2020/08/02 13:24'
 );
 
 -- Task #4
@@ -1245,6 +1245,6 @@ INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, st
 INSERT INTO enemy(enemy_id, pc_id, task_id, speed, range, azimuth, elevation, start_dt, finish_dt) VALUES(
     4, 6, 4, 1000, 596.030, 332.313, 15, TIMESTAMP '2020/08/02 13:24', TIMESTAMP '5999/01/01 00:00'
 );
-INSERT INTO ammunition(fighter_id, missile_id, amount, start_dt, finish_dt) VALUES(
-    16, 2, 0, TIMESTAMP '2020/08/02 13:24', TIMESTAMP '5999/01/01 00:00'
+INSERT INTO ammunition(fighter_id, missile_id, amount, start_dt) VALUES(
+    16, 2, 0, TIMESTAMP '2020/08/02 13:24'
 );
