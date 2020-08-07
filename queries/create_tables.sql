@@ -189,22 +189,7 @@ END;
 $$ LANGUAGE PLPGSQL;
 
 CREATE OR REPLACE FUNCTION update_fighter() RETURNS TRIGGER AS $$
-DECLARE
-    current_fighter_id INTEGER;
-    row_missile_id INTEGER;
-    row_amount INTEGER;
-    row_start_dt TIMESTAMP;
 BEGIN
-    SELECT
-        fighter.id
-    INTO
-        current_fighter_id
-    FROM
-        fighter
-    WHERE
-        fighter.fighter_id = NEW.fighter_id
-        AND fighter.finish_dt = TIMESTAMP '5999/01/01 00:00';
-
     UPDATE
         fighter
     SET
@@ -213,37 +198,16 @@ BEGIN
         fighter.fighter_id = NEW.fighter_id
         AND fighter.finish_dt = TIMESTAMP '5999/01/01 00:00';
 
-    FOR row_missile_id, row_amount, row_start_dt IN SELECT
-        ammunition.missile_id, ammunition.amount, ammunition.start_dt
-    FROM
-        ammunition
-    WHERE
-        ammunition.fighter_id = current_fighter_id
-        AND ammunition.finish_dt = TIMESTAMP '5999/01/01 00:00'
-    LOOP
-        UPDATE
-            ammunition
-        SET
-            finish_dt = NEW.start_dt
-        WHERE
-            ammunition.fighter_id = current_fighter_id
-            AND ammunition.missile_id = row_missile_id
-            AND ammunition.finish_dt = TIMESTAMP '5999/01/01 00:00';
-
-        INSERT INTO ammunition(fighter_id, missile_id, amount, start_dt, finish_dt) VALUES(
-            NEW.fighter_id, row_missile_id, row_amount, row_start_dt, TIMESTAMP '5999/01/01 00:00'
-        );
-    END LOOP;
-
     RETURN NEW;
 END;
 $$ LANGUAGE PLPGSQL;
 
-CREATE OR REPLACE FUNCTION update_ammunition() RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION update_ammunition_after() RETURNS TRIGGER AS $$
 DECLARE
     old_finish_dt TIMESTAMP;
     old_fighter_id INTEGER;
-    current_fighter_id INTEGER;
+    row_missile_id INTEGER;
+    row_amount INTEGER;
 BEGIN
     SELECT
         fighter.start_dt
@@ -265,6 +229,36 @@ BEGIN
         fighter.finish_dt = old_finish_dt
         AND fighter.fighter_id = NEW.fighter_id;
 
+    FOR row_missile_id, row_amount IN SELECT
+        ammunition.missile_id, ammunition.amount
+    FROM
+        ammunition
+    WHERE
+        ammunition.fighter_id = old_fighter_id
+        AND ammunition.finish_dt = TIMESTAMP '5999/01/01 00:00'
+    LOOP
+        UPDATE
+            ammunition
+        SET
+            finish_dt = NEW.start_dt
+        WHERE
+            ammunition.fighter_id = old_fighter_id
+            AND ammunition.missile_id = row_missile_id
+            AND ammunition.finish_dt = TIMESTAMP '5999/01/01 00:00';
+
+        INSERT INTO ammunition(fighter_id, missile_id, amount, start_dt, finish_dt) VALUES(
+            NEW.id, row_missile_id, row_amount, NEW.start_dt, TIMESTAMP '5999/01/01 00:00'
+        );
+    END LOOP;
+
+    RETURN NULL;
+END;
+$$ LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION update_ammunition() RETURNS TRIGGER AS $$
+DECLARE
+    current_fighter_id INTEGER;
+BEGIN
     SELECT
         fighter.id
     INTO
@@ -280,7 +274,7 @@ BEGIN
     SET
         finish_dt = NEW.start_dt
     WHERE
-        ammunition.fighter_id = old_fighter_id
+        ammunition.fighter_id = current_fighter_id
         AND ammunition.missile_id = NEW.missile_id
         AND ammunition.finish_dt = TIMESTAMP '5999/01/01 00:00';
 
@@ -310,6 +304,12 @@ BEFORE INSERT
 ON fighter
 FOR EACH ROW
 EXECUTE PROCEDURE update_fighter();
+
+CREATE TRIGGER ammunition_update_after
+AFTER INSERT
+ON fighter
+FOR EACH ROW
+EXECUTE PROCEDURE update_ammunition_after();
 
 CREATE TRIGGER ammunition_update
 BEFORE INSERT
